@@ -9,7 +9,6 @@
 
 import os
 from tabulate import tabulate
-from keras.utils.layer_utils import count_params
 from typing import Dict, Optional, Tuple, List
 import tensorflow as tf
 from tensorflow.keras.models import Model
@@ -300,8 +299,8 @@ def model_summary(model):
     print(tabulate(table, headers=["Layer index", "Trainable", "Name", "Type", "Params#", "Output shape"]))
     print(108 * '-')
     print("Total params:", model.count_params())
-    print("Trainable params: ", count_params(model.trainable_weights))
-    print("Non-trainable params: ", count_params(model.non_trainable_weights))
+    print("Trainable params: ", model.count_params(model.trainable_weights))
+    print("Non-trainable params: ", model.count_params(model.non_trainable_weights))
     print(108 * '-')
     print("Total layers:", num_layers)
     print("Trainable layers:", trainable_layers)
