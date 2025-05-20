@@ -1,4 +1,4 @@
-tensorflow==2.8.3; sys_platform == "linux"
+tensorflow==2.16.2; sys_platform == "linux"
 tensorflow-macos==2.16.2; sys_platform == "darwin" and platform_machine == "arm64"
 tensorflow-metal==1.2.0; sys_platform == "darwin" and platform_machine == "arm64"
 mlflow==2.22.0
