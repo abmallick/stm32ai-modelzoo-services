@@ -9,6 +9,7 @@
 import os
 import shutil
 from pathlib import Path
+from tqdm import tqdm
 from string import ascii_letters, digits
 import random
 from timeit import default_timer as timer
@@ -33,17 +34,25 @@ from common.utils import count_h5_parameters, log_to_file, \
                          ai_runner_interp, ai_interp_input_quant, ai_interp_outputs_dequant
 
 
-
 def _evaluate_float_model(cfg: DictConfig, model_path: str, num_classes: int = None) -> dict:
 
-    # Load the model to evaluate
-    model = tf.keras.models.load_model(model_path, compile=False)
+    # Import AnchorProcessingLayer here, just before it's needed,
+    # to minimize risk of circular imports.
+    from object_detection.src.models.ssd_mobilenet_v2_fpnlite import AnchorProcessingLayer 
+    
+    # Define the custom objects dictionary
+    custom_objects = {'AnchorProcessingLayer': AnchorProcessingLayer}
+    
+    # Use custom_object_scope when loading the model
+    with tf.keras.utils.custom_object_scope(custom_objects):
+        model = tf.keras.models.load_model(model_path, compile=False) # This was line 16 in your snippet
     
     # Create the data loader
-    image_size = model.input.shape[1:3]
+    image_size = model.input[0].shape[1:3]
+    # Ensure get_evaluation_data_loader is imported at the top of the file
     data_loader = get_evaluation_data_loader(cfg, image_size=image_size, normalize=False)
 
-    # Get the size of the dataset
+     # Get the size of the dataset
     dataset_size = sum([x.shape[0] for x, _ in data_loader])
     
     # Get the number of groundtruth labels used in the dataset
@@ -51,21 +60,25 @@ def _evaluate_float_model(cfg: DictConfig, model_path: str, num_classes: int = N
     num_labels = int(tf.shape(labels)[1])
     
     cpp = cfg.postprocessing
+    # Ensure ObjectDetectionMetricsData is imported
     metrics_data = ObjectDetectionMetricsData(num_labels, cpp.max_detection_boxes, dataset_size)
 
     for data in tqdm(data_loader):
         images, gt_labels = data
-        image_size = tf.shape(images)[1:3]
+        image_size_loop_var = tf.shape(images)[1:3] # Using a different variable name to avoid confusion with image_size from model input
 
         # Predict the images, decode and NMS the detections
         predictions = model(images)
-        boxes, scores, classes = get_nmsed_detections(cfg, predictions, image_size)
+        # Ensure get_nmsed_detections is imported
+        boxes, scores, classes = get_nmsed_detections(cfg, predictions, image_size_loop_var) # Use image_size_loop_var
 
         # Record GT boxes and detection boxes in (x1, y1, x2, y2) absolute coordinates
-        boxes = bbox_normalized_to_abs_coords(boxes, image_size=image_size)
+        # Ensure bbox_normalized_to_abs_coords is imported
+        boxes = bbox_normalized_to_abs_coords(boxes, image_size=image_size_loop_var) # Use image_size_loop_var
         metrics_data.add_data(gt_labels, boxes, scores, classes)
     
     groundtruths, detections = metrics_data.get_data()
+    # Ensure calculate_objdet_metrics is imported
     metrics = calculate_objdet_metrics(groundtruths, detections, cpp.IoU_eval_thresh)
 
     return metrics

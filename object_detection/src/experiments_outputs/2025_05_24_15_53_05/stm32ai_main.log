@@ -1,0 +1,13 @@
+operation_mode: training
+Dataset : parking_dataset
+Model type : ssd_mobilenet_v2_fpnlite
+[2025-05-24 15:53:08,515][absl][WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+[2025-05-24 15:57:46,308][absl][WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+The last epoch history :
+['epoch', 'learning_rate', 'loss', 'val_loss', 'val_map', 'val_mpre', 'val_mrec']
+['0', '0.0010000000474974513', '59.15465545654297', '53.6724739074707', '8.551490832921384e-05', '0.00017259233572985977', '0.00047770701348781586']
+Training runtime : 277 s
+Average time per epoch : 277.0 s
+[2025-05-24 15:57:47,874][absl][WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+[2025-05-24 15:57:48,699][absl][WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+Nb params of float model : 1074891

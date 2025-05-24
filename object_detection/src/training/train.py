@@ -277,9 +277,9 @@ def train(cfg: DictConfig):
     log_to_file(cfg.output_dir, (f"Training runtime : {fit_run_time} s\n" + f"Average time per epoch : {average_time_per_epoch} s"))
 
     # Set weights and models paths
-    best_weights_path = os.path.join(saved_models_dir, "best_weights.h5")
+    best_weights_path = os.path.join(saved_models_dir, "best_model.weights.h5")
     best_model_path = os.path.join(saved_models_dir, "best_model.h5")
-    last_weights_path = os.path.join(saved_models_dir, "last_weights.h5")
+    last_weights_path = os.path.join(saved_models_dir, "last_epoch.weights.h5")
     last_model_path = os.path.join(saved_models_dir, "last_model.h5")
     
     print("[INFO] Saved trained models:")
