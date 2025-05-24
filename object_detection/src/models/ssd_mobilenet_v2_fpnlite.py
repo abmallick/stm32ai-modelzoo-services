@@ -7,15 +7,52 @@
 #  *--------------------------------------------------------------------------------------------*/
 
 import tensorflow as tf
+from tensorflow import keras
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Conv2D, UpSampling2D, ZeroPadding2D, \
         Activation, Add, BatchNormalization, GlobalAveragePooling2D, Reshape, Concatenate, Lambda
 from tensorflow.keras.layers import DepthwiseConv2D
 from tensorflow.keras.regularizers import L2
+from tensorflow.keras import layers
 
 from src.utils import gen_anchors, get_sizes_ratios_ssd_v2
 from typing import Tuple
 
+class AnchorProcessingLayer(tf.keras.layers.Layer): # Assuming this was fixed from 'layers.Layer'
+    def __init__(self, **kwargs):
+        super(AnchorProcessingLayer, self).__init__(**kwargs)
+
+    def call(self, inputs):
+        anchors, bbox_preds = inputs # 'anchors' is tf.Tensor, 'bbox_preds' is KerasTensor
+        
+        # This should be fine as 'anchors' is a tf.Tensor here.
+        expanded_anchors = tf.expand_dims(anchors, 0) 
+        
+        # Get batch_size as a scalar tensor (0-D)
+        batch_size_scalar = keras.ops.shape(bbox_preds)[0]
+        
+        # Convert the scalar batch_size to a 1-D tensor: [N]
+        batch_dim_tensor = keras.ops.expand_dims(batch_size_scalar, axis=0)
+        
+        # Convert the list [1, 1, 1, 1] to a 1-D tensor, matching dtype with batch_dim_tensor
+        ones_tensor = keras.ops.convert_to_tensor([1, 1, 1, 1], dtype=batch_dim_tensor.dtype)
+        
+        # Concatenate the two 1-D tensors to form the 'multiples' argument: [N, 1, 1, 1, 1]
+        multiples = keras.ops.concatenate([batch_dim_tensor, ones_tensor], axis=0)
+        
+        # Perform the tiling operation
+        # If you intend to use keras.ops throughout, this could be keras.ops.tile
+        anchorss = tf.tile(expanded_anchors, multiples) 
+        
+        return anchorss
+
+    def get_config(self):
+        config = super(AnchorProcessingLayer, self).get_config()
+        return config
+
+    def get_config(self):
+        config = super(AnchorProcessingLayer, self).get_config()
+        return config
 
 def _bbox_predictor(fmap_channels, version, layer_in, n_anchors, n_offsets=4, kernel=(3, 3), l2_reg=0.0005, bn=False, dw=False):
     '''Bounding box prediction layer'''
@@ -112,7 +149,7 @@ def _fmap_forward(fmap_channels, version, fmap, img_width, img_height, sizes, ra
     cls_preds  = _cls_predictor( fmap_channels, version, fmap, n_anchors=n_anchors, n_classes=n_classes, kernel=kernel, l2_reg=l2_reg, bn=bn, dw=dw)
     bbox_preds = _bbox_predictor(fmap_channels, version, fmap, n_anchors=n_anchors, n_offsets=4,         kernel=kernel, l2_reg=l2_reg, bn=bn, dw=dw)
 
-    anchorss = tf.tile(tf.expand_dims(anchors,0),(tf.shape(bbox_preds)[0],1,1,1,1))    
+    anchorss = AnchorProcessingLayer()([anchors, bbox_preds])   
     
     return anchorss, cls_preds, bbox_preds
 

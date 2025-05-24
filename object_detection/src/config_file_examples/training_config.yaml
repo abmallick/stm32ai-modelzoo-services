@@ -1,6 +1,6 @@
 general:
   project_name: my_project
-  model_type: st_ssd_mobilenet_v1
+  model_type: ssd_mobilenet_v2_fpnlite
   model_path: 
   saved_models_dir: saved_models
   gpu_memory_limit: 16
@@ -9,13 +9,13 @@ general:
 operation_mode: training
 
 dataset:
-   name: Pascal_VOC_2012    
-   class_names: [ aeroplane,bicycle,bird,boat,bottle,bus,car,cat,chair,cow,diningtable,dog,horse,motorbike,person,pottedplant,sheep,sofa,train,tvmonitor ]
-   training_path: ./datasets/Pascal_VOC_2012/train/
-   validation_path: ./datasets/Pascal_VOC_2012/valid/
-   validation_split: 
-   test_path:
-   quantization_path: 
+   name: parking_dataset    
+   class_names: [ space-empty, space-occupied ] 
+   training_path: ./datasets/parking_dataset/train
+   validation_path: ./datasets/parking_dataset/valid
+   validation_split: 0.1
+   test_path: ./datasets/parking_dataset/test
+   quantization_path: ./datasets/parking_dataset/valid
    quantization_split: 
 
 preprocessing:
@@ -42,12 +42,12 @@ data_augmentation:
 
 training:
   model:
-    alpha: 0.25
+    alpha: 0.35
     input_shape: (192, 192, 3)
     pretrained_weights: imagenet
   dropout:
   batch_size: 64
-  epochs: 1000
+  epochs: 2
   optimizer:
     Adam:
       learning_rate: 0.001

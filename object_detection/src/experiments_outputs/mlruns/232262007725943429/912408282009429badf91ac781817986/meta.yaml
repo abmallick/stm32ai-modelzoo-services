@@ -1,0 +1,15 @@
+artifact_uri: /Users/faizandarsot/spotwatchllc/stm32ai-modelzoo-services/object_detection/src/experiments_outputs/mlruns/232262007725943429/912408282009429badf91ac781817986/artifacts
+end_time: 1748060826682
+entry_point_name: ''
+experiment_id: '232262007725943429'
+lifecycle_stage: active
+run_id: 912408282009429badf91ac781817986
+run_name: '2025_05_24_00_27_01'
+run_uuid: 912408282009429badf91ac781817986
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748060821841
+status: 3
+tags: []
+user_id: faizandarsot
