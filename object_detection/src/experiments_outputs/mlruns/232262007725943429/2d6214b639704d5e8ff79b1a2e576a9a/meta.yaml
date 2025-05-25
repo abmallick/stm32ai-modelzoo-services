@@ -1,0 +1,15 @@
+artifact_uri: /Users/faizandarsot/spotwatchllc/stm32ai-modelzoo-services/object_detection/src/experiments_outputs/mlruns/232262007725943429/2d6214b639704d5e8ff79b1a2e576a9a/artifacts
+end_time: 1748060469966
+entry_point_name: ''
+experiment_id: '232262007725943429'
+lifecycle_stage: active
+run_id: 2d6214b639704d5e8ff79b1a2e576a9a
+run_name: '2025_05_24_00_21_07'
+run_uuid: 2d6214b639704d5e8ff79b1a2e576a9a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1748060467805
+status: 3
+tags: []
+user_id: faizandarsot

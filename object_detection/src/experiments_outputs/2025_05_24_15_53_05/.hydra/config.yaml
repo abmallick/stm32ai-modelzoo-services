@@ -1,0 +1,65 @@
+general:
+  project_name: my_project
+  model_type: ssd_mobilenet_v2_fpnlite
+  model_path: null
+  saved_models_dir: saved_models
+  gpu_memory_limit: 16
+  global_seed: 127
+operation_mode: training
+dataset:
+  name: parking_dataset
+  class_names:
+  - space-empty
+  - space-occupied
+  training_path: ./datasets/parking_dataset/train
+  validation_path: ./datasets/parking_dataset/valid
+  validation_split: 0.1
+  test_path: ./datasets/parking_dataset/test
+  quantization_path: ./datasets/parking_dataset/valid
+  quantization_split: null
+preprocessing:
+  rescaling:
+    scale: 1/127.5
+    offset: -1
+  resizing:
+    interpolation: nearest
+    aspect_ratio: fit
+  color_mode: rgb
+data_augmentation:
+  random_contrast:
+    factor: 0.4
+  random_brightness:
+    factor: 0.3
+  random_flip:
+    mode: horizontal
+  random_translation:
+    width_factor: 0.1
+    height_factor: 0.1
+  random_rotation:
+    factor: 0.05
+training:
+  model:
+    alpha: 0.35
+    input_shape: (192, 192, 3)
+    pretrained_weights: imagenet
+  dropout: null
+  batch_size: 64
+  epochs: 1
+  optimizer:
+    Adam:
+      learning_rate: 0.001
+  callbacks:
+    ReduceLROnPlateau:
+      monitor: val_loss
+      patience: 20
+    EarlyStopping:
+      monitor: val_loss
+      patience: 40
+postprocessing:
+  confidence_thresh: 0.001
+  NMS_thresh: 0.5
+  IoU_eval_thresh: 0.5
+  plot_metrics: true
+  max_detection_boxes: 100
+mlflow:
+  uri: ./src/experiments_outputs/mlruns

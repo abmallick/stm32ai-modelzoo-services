@@ -1,0 +1,3 @@
+operation_mode: training
+Dataset : parking_dataset
+Model type : ssd_mobilenet_v2_fpnlite

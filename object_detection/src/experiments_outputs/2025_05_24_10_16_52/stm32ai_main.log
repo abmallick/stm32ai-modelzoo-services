@@ -1,0 +1,11 @@
+operation_mode: training
+Dataset : parking_dataset
+Model type : ssd_mobilenet_v2_fpnlite
+[2025-05-24 10:16:55,576][absl][WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+[2025-05-24 10:21:33,394][absl][WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+[2025-05-24 10:24:46,219][absl][WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+The last epoch history :
+['epoch', 'learning_rate', 'loss', 'val_loss', 'val_map', 'val_mpre', 'val_mrec']
+['1', '0.0010000000474974513', '54.989051818847656', '53.2828483581543', '5.707714754320268e-05', '0.00011523392458911985', '0.00031847134232521057']
+Training runtime : 471 s
+Average time per epoch : 235.5 s

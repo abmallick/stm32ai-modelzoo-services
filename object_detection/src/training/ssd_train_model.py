@@ -64,10 +64,11 @@ class SSDTrainingModel(tf.keras.Model):
     def reset_metrics_data(self):
         self.metrics_data.reset()
         
-    def save_weights(self, filepath, overwrite=True, save_format=None, options=None):
+    def save_weights(self, filepath, overwrite=True, options=None): # options is received but not used for the inner call
+        # Do not pass 'options' to the inner model's save_weights if it causes a TypeError
         self.model.save_weights(
-            filepath, overwrite=overwrite, save_format=save_format, options=options)
-
+            filepath, overwrite=overwrite) # options argument removed from this call
+        
     def load_weights(self, filepath, skip_mismatch=False, by_name=False, options=None):
         return self.model.load_weights(
             filepath, skip_mismatch=skip_mismatch, by_name=by_name, options=options)

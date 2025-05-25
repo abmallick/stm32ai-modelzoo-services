@@ -85,7 +85,7 @@ def _get_best_model_callback(cfg: DictConfig,
         monitor, mode = _get_callback_monitoring(args, callback_name="ModelCheckpoint", message=message)
 
     callback = tf.keras.callbacks.ModelCheckpoint(
-                    filepath=os.path.join(saved_models_dir, "best_weights.h5"),
+                    filepath=os.path.join(saved_models_dir, "best_model.weights.h5"),
                     save_best_only=True,
                     save_weights_only=True,
                     monitor=monitor,
@@ -187,7 +187,7 @@ def get_callbacks(cfg: DictConfig,
 
     # Add the Keras callback that saves the model at the end of the epoch
     callback = tf.keras.callbacks.ModelCheckpoint(
-                    filepath=os.path.join(saved_models_dir, "last_weights.h5"),
+                    filepath=os.path.join(saved_models_dir, "last_epoch.weights.h5"),
                     save_best_only=False,
                     save_weights_only=True,
                     save_freq='epoch')

@@ -1,0 +1,4 @@
+operation_mode: training
+Dataset : parking_dataset
+Model type : ssd_mobilenet_v2_fpnlite
+[2025-05-24 00:27:05,046][absl][WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
